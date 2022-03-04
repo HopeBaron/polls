@@ -18,6 +18,9 @@ export default class ChoiceView {
   async downVote() {
     this.choice = await this.service.down_vote(this.id);
   }
+  delete(token: string) {
+    this.service.delete(this.id, token);
+  }
   getProposal(): string {
     return this.choice.proposal;
   }

@@ -5,9 +5,12 @@
     </span>
     {{ view.choice.proposal }}
     <div id="operations" style="margin-left: auto">
-      <p>{{ score }}</p>
-      <i class="fas fa-arrow-up" @click="upVote()"></i>
-      <i class="fas fa-arrow-down" @click="downVote()"></i>
+      <i class="fas fa-delete-left" @click="deleteView()"></i>
+      <div id="vote-operations">
+        <p>{{ score }}</p>
+        <i class="fas fa-arrow-up" @click="upVote()"></i>
+        <i class="fas fa-arrow-down" @click="downVote()"></i>
+      </div>
     </div>
   </a>
 </template>
@@ -28,6 +31,11 @@ export default defineComponent({
   methods: {
     async downVote() {
       this.view.downVote();
+    },
+
+    deleteView() {
+      this.view.delete();
+      this.$emit("choice-delete-event", this.view);
     },
 
     async upVote() {

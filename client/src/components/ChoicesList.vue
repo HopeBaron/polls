@@ -1,6 +1,9 @@
 <template>
   <nav class="panel">
-    <p class="panel-heading">suggestions</p>
+    <p class="panel-heading">Choices</p>
+    <div class="panel-block">
+      <slot></slot>
+    </div>
     <div class="panel-block">
       <p class="control has-icons-left">
         <input
@@ -15,6 +18,7 @@
       </p>
     </div>
     <ChoiceCard
+      v-on:choice-delete-event="onChoiceDelete"
       v-for="item in filterAndSort(this.views)"
       :key="item.id"
       :initalView="item"
@@ -28,7 +32,7 @@ import ChoiceView from "../views/ChoiceView";
 
 export default defineComponent({
   props: {
-    views: {
+    initialViews: {
       required: true,
       type: Array,
     },
@@ -36,6 +40,7 @@ export default defineComponent({
   data() {
     return {
       search_input: "",
+      views: this.initialViews,
     };
   },
   methods: {
@@ -55,6 +60,10 @@ export default defineComponent({
             .includes(this.search_input.toLowerCase())
         )
         .sort((a, b) => this.sortByScore(a, b));
+    },
+    onChoiceDelete(choiceView: ChoiceView) {
+      const index = this.views.indexOf(choiceView);
+      this.views.splice(index, 1);
     },
   },
   components: {
